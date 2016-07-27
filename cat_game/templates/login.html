@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+  <form action="" method=post class="form-horizontal">
+    {{form.hidden_tag()}}
+    <h2>Signin to =^Cat game^= </h2>
+    <div class="control-group">
+        <label>{{ form.username.label }}</label>
+        <div class="controls">
+          {{ form.username }}
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <label>{{ form.password.label }}</label>
+        <div class="controls">
+          {{ form.password }}
+        </div>
+    </div>
+ 
+    <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </div>
+  </form>
+{% endblock %}

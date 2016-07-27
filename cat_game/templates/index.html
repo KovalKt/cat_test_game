@@ -1,0 +1,7 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <div>Hello, {{ user_data.username }}!</div>
+  {% endif %}
+  <div>Games played: {{ user_data.games_played }}</div>
+{% endblock %}
