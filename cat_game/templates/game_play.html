@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+{% block body %}
+  {% if session.logged_in %}
+    <div>Hello, {{ user.username }}!</div>
+  {% endif %}
+  <div class="content">
+    <div class="sidebar">Games played: {{ user.games_played }}</div>
+
+    <div id="game">
+      <table>
+      {% for row in game_field %}
+        <tr class="field-row">
+          {% for cell in row %}
+          <td class="field-cell">
+            <button type="button" onclick="sendId(this)">
+              {{ cell.id }}
+            </button>
+          </td>
+          {% endfor %}
+        </tr>
+      {% endfor %}
+      </table>
+    </div>
+  </div>
+  <div id="example"></div>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+  <script src="static/js/index.js"></script>
+
+
+{% endblock %}

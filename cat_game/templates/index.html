@@ -1,7 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
-    <div>Hello, {{ user_data.username }}!</div>
+    <div>Hello, {{ user.username }}!</div>
   {% endif %}
-  <div>Games played: {{ user_data.games_played }}</div>
+  <div class="content">
+      <div id="settings">
+      <form action="" method=post class="form-horizontal">
+        {{ form.hidden_tag() }}
+        <div>
+          {% for subfield in form.user_sign %}
+            <tr>
+                <td>{{ subfield }}</td>
+                <td>{{ subfield.label }}</td>
+            </tr>
+          {% endfor %}
+        </div>
+        <div>
+          <button type="submit" class="start-btn">
+            Start game!    
+          </button>
+        </div>
+      </form>
+    </div>
+    
+  </div>
 {% endblock %}

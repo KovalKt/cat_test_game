@@ -1,24 +1,31 @@
 {% extends "layout.html" %}
 {% block body %}
   <form action="" method=post class="form-horizontal">
-    {{form.hidden_tag()}}
+    {{ form.hidden_tag() }}
     <h2>Signin to =^Cat game^= </h2>
-    <div class="control-group">
+    <div>
         <label>{{ form.username.label }}</label>
-        <div class="controls">
+        <div>
           {{ form.username }}
         </div>
     </div>
  
-    <div class="control-group">
+    <div>
         <label>{{ form.password.label }}</label>
-        <div class="controls">
+        <div>
           {{ form.password }}
         </div>
     </div>
+
+    <div>
+      <div>
+        {{ form.remember_me }}
+        <label>{{ form.remember_me.label }}</label>
+      </div>
+    </div>
  
-    <div class="control-group">
-        <div class="controls">
+    <div>
+        <div>
           <button type="submit" class="btn btn-success">Submit</button>
         </div>
     </div>
