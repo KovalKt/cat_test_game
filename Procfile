@@ -1,1 +1,1 @@
-web: python manage.py runserver -h 0.0.0.0 -p $PORT || 5000
+web: python manage.py run_app

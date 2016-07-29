@@ -1,3 +1,4 @@
+import os
 from flask_script import Manager
 from cat_game import app
 
@@ -26,6 +27,11 @@ def add_records_for_test():
         db.session.add(user2)
         db.session.add(user3)
         db.session.commit()
+
+@manager.command
+def run_app():
+    init_db()
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
 if __name__ == "__main__":
     manager.run()
