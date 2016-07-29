@@ -27,13 +27,19 @@ def winner3(board, diagonals):
             return "Tie", None
     return None, None
 
+def winner5(board, diagonals):
+    pass
+
 def possible_moves(board):
     return [indx for (indx, cell) in enumerate(board) if cell == '']
 
 def get_computer_move(board_size, board, computer_sign, user_sign, diagonals):
     board = board[:]
 
-    BEST_MOVES = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+    if diagonals:
+        BEST_MOVES = (4, 0, 2, 6, 8, 1, 3, 5, 7)
+    else:
+        BEST_MOVES = (4, 1, 7, 3, 5, 0, 6, 2, 8)
     for move in possible_moves(board):
         board[move] = computer_sign
         if check_winner(board_size, board, diagonals) == computer_sign:

@@ -30,6 +30,7 @@ def add_records_for_test():
 
 @manager.command
 def run_app():
+    '''Initiate DB and run application '''
     init_db()
     app.run(host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
 
