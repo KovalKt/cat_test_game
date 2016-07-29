@@ -11,8 +11,8 @@ h2              { font-size: 1.2em; }
 .flash          { background: #cee5F5; padding: 0.5em;
                   border: 1px solid #aacbe2; }
 .error          { background: #f0d6d6; padding: 0.5em; }
-.field-row      { width: 40%; border: 3px solid #73AD21; }
-.field-cell     { margin: 1em auto; padding:  0.3em;}
+.board-row      { width: 40%; border: 3px solid #73AD21; }
+.board-cell     { margin: 1em auto; padding:  0.3em;}
 .sidebar        { width: 20%; right: 0; position: absolute; }
 .content        { position: relative; width: 100%; }
 .start-btn      { background-color: #008CBA; border-radius: 4em; }

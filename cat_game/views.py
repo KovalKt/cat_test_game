@@ -4,9 +4,12 @@ from flask_login import login_user, logout_user, current_user, login_required
 from . import app, db, login_manager
 from .models import User
 from .forms import LoginForm, RegisterForm, SettingsForm
+from .helper import get_computer_move, check_winner
 
-FIELD_SIZE = 3
+BOARD_SIZE = 3
 USER_SIGN = 'O'
+COMPUTER_SIGN = 'X'
+game_board = []
 
 @login_manager.user_loader
 def load_user(id):
@@ -24,22 +27,58 @@ def index():
     user = current_user
     if request.method == 'POST':
         USER_SIGN = form['user_sign']
+        COMPUTER_SIGN = 'X' if USER_SIGN == 'O' else 'O'
         return redirect(url_for('game'))
     return render_template('index.html', user=user, form=form)
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
+    global game_board
     if request.method == 'GET':
-        game_field = [[{'id': (x+FIELD_SIZE*y)} for x in range(FIELD_SIZE)] for y in range(FIELD_SIZE)]
-        free_cels = range(FIELD_SIZE*FIELD_SIZE)
-        user_cels = []
-        computer_cels = []
-
-        return render_template('game_play.html', user=current_user, game_field=game_field)
+        game_board = ['' for x in range(BOARD_SIZE*BOARD_SIZE)]
+        return render_template('game_play.html', 
+            user=current_user, 
+            game_board=game_board,
+            board_capacity=BOARD_SIZE)
     else:
-        return jsonify({ 
-            'sign': USER_SIGN,
-            'status': 'ok' })
+        print int(request.form['cell_id'])
+        position = int(request.form['cell_id'])
+        if game_board[position] != '':
+            flash('This position already occupied')
+            return jsonify({
+                'status': 'error'
+                })
+        else:
+            game_board[position] = USER_SIGN
+            winner, win_line = check_winner(BOARD_SIZE, game_board)
+            print winner
+            print win_line
+            if winner:
+                if winner == USER_SIGN:
+                    user = current_user
+                    user.games_played += 1
+                    db.session.add(user)
+                    db.session.commit()
+                    flash('Congratulations! You won!')
+                else:
+                    flash('Computer won! Try next time')
+                return jsonify({
+                    'status': 'ok',
+                    'game_over': 'true',
+                    'winner': winner,
+                    'win_line': win_line
+                })
+            else:
+                computer_move = get_computer_move(BOARD_SIZE, game_board, COMPUTER_SIGN, USER_SIGN)
+                game_board[computer_move] = COMPUTER_SIGN
+
+                return jsonify({ 
+                    'status': 'ok',
+                    'game_over': 'false',
+                    'user_sign': USER_SIGN,
+                    'computer_sign': COMPUTER_SIGN,
+                    'computer_move': computer_move
+                     })
 
 
 @app.route('/register' , methods=['GET','POST'])

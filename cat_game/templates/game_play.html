@@ -8,12 +8,13 @@
 
     <div id="game">
       <table>
-      {% for row in game_field %}
-        <tr class="field-row">
-          {% for cell in row %}
-          <td class="field-cell">
-            <button type="button" onclick="sendId(this)">
-              {{ cell.id }}
+      {% for row in range(board_capacity) %}
+        <tr class="board-row">
+          {% for column in range(board_capacity) %}
+          <td class="board-cell">
+            {% set index = column+row*board_capacity %}
+            <button id="{{ index }}" type="button" onclick="sendId(this)">
+              {{ game_board[index].value }}
             </button>
           </td>
           {% endfor %}
