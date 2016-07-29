@@ -1,34 +1,36 @@
 {% extends "layout.html" %}
 {% block body %}
-  <form action="" method=post class="form-horizontal">
-    <h2>Sign up for =^Cat game^= Application </h2>
-    <div class="control-group">
-        <label>{{ form.username.label }}</label>
-        <div class="controls">
-          {{ form.username }}
-        </div>
-    </div>
- 
-    <div>
-        <div>
-        <label>{{ form.password.label }}</label>
-        <div class="controls">
-          {{ form.password }}
-        </div>
-    </div>
-    </div>
- 
-    <div>
-        <label>{{ form.email.label }}</label>
-        <div>
-          {{ form.email }}
-        </div>
-    </div>
- 
-    <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn btn-success">Sign up</button>
-        </div>
-    </div>
-  </form>
+  <div class="content">
+    <form action="" method=post class="form-horizontal">
+      <h2>Registration</h2>
+
+      <div>
+          <label>{{ form.username.label }}</label>
+          <div>
+            {{ form.username }}
+          </div>
+      </div>
+   
+      <div>
+          <label>{{ form.password.label }}</label>
+          <div>
+            {{ form.password }}
+          </div>
+      </div>
+      </div>
+   
+      <div>
+          <label>{{ form.email.label }}</label>
+          <div>
+            {{ form.email }}
+          </div>
+      </div>
+   
+      <div >
+          <div>
+            <button type="submit" class="submit-btn">Sign up</button>
+          </div>
+      </div>
+    </form>
+  </div>
 {% endblock %}

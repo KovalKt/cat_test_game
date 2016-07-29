@@ -12,7 +12,7 @@ class User(db.Model):
     games_won = db.Column(db.Integer, default=0)
     authenticated = db.Column(db.Boolean, default=False)
     
-    def __init__(self, name, email, password, games_played):
+    def __init__(self, name, email, password, games_played=0):
         self.username = name
         self.email = email
         self.password = password
