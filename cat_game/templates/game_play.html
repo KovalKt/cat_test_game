@@ -1,7 +1,16 @@
 {% extends "layout.html" %}
 {% block body %}
   <div class="content">
-    <div class="sidebar">Games played: {{ user.games_played }}</div>
+    <div class="sidebar">
+      <div>{{ user.username }}</div>
+      <hr/>
+      <div>
+        Games played: {{ user.games_played }}
+      </div>
+      <div>
+        Games won: {{ user.games_won }}
+      </div>
+    </div>
 
     <div id="game">
       <table>

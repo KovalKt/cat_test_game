@@ -16,7 +16,7 @@ h2              { font-size: 1.2em; }
 .cell           { border: none; background-color: #fafafa; 
                   text-align: center; width: 52px; height: 52px;}
 .sidebar        { width: 20%; right: 0; position: absolute; }
-.content        { position: relative; width: 100%; }
+.content        { position: relative; width: 100%; margin-top: 2em; }
 .start-btn      { background-color: #008CBA; border-radius: 4em; }
 
 #game           { width: 80%; align-content: center; }

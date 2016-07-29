@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, current_user, login_required
 from . import app, db, login_manager
 from .models import User
 from .forms import LoginForm, RegisterForm, SettingsForm
-from .helper import get_computer_move, check_winner, USER_SIGN, COMPUTER_SIGN
+from .helper import get_computer_move, check_winner
 
 BOARD_SIZE = 3
 USER_SIGN = 'O'
@@ -55,6 +55,7 @@ def game():
             if winner == USER_SIGN:
                 user = current_user
                 user.games_played += 1
+                user.games_won += 1
                 db.session.add(user)
                 db.session.commit()
             return jsonify({

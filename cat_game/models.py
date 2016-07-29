@@ -9,6 +9,7 @@ class User(db.Model):
     email = db.Column(db.String(80), nullable=False)
     password = db.Column(db.String(32), nullable=False)
     games_played = db.Column(db.Integer, default=0)
+    games_won = db.Column(db.Integer, default=0)
     authenticated = db.Column(db.Boolean, default=False)
     
     def __init__(self, name, email, password, games_played):
@@ -16,6 +17,7 @@ class User(db.Model):
         self.email = email
         self.password = password
         self.games_played = games_played
+        self.games_won = 0
         self.authenticated = False
 
     def __repr__(self):
