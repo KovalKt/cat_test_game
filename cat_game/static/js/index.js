@@ -14,6 +14,9 @@ function sendId(element) {
                     $('#'+data.computer_move).text(data.computer_sign);
                     $(".cell").removeAttr('disabled');
                 } else {
+                    if (data.computer_move != null) {
+                        $('#'+data.computer_move).text(data.computer_sign);
+                    }
                     if (data.win_line != null) {
                         var win_line = data.win_line;
                         for (id in win_line) {
@@ -21,13 +24,15 @@ function sendId(element) {
                         }
                         var congrats_message = '"'+data.winner+'"'+' won!';
                         if (data.winner == data.user_sign) {
-                            congrats_message += 'Congratulations!';
+                            congrats_message += ' Congratulations!';
                         } else {
-                            congrats_message += 'Try next time';
+                            congrats_message += ' Try next time';
                         }
                         alert(congrats_message);
-                        $(location).attr('href','index');
+                    } else {
+                        alert('Tie! Try your luck next time');
                     }
+                    $(location).attr('href','index');
                 } 
             }
         );

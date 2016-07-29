@@ -55,31 +55,39 @@ def game():
         game_board[position] = USER_SIGN
         winner, win_line = check_winner(BOARD_SIZE, game_board)
 
-        if winner:
-            user = current_user
-            user.games_played += 1
-            if winner == USER_SIGN:
-                user.games_won += 1
-                db.session.add(user)
-                db.session.commit()
-            return jsonify({
-                'status': 'ok',
-                'game_over': 'true',
-                'user_sign': USER_SIGN,
-                'winner': winner,
-                'win_line': win_line
-            })
-        else:
+        computer_move = None
+        if not winner:
             computer_move = get_computer_move(BOARD_SIZE, game_board, COMPUTER_SIGN, USER_SIGN)
             game_board[computer_move] = COMPUTER_SIGN
-
-            return jsonify({ 
+            
+            winner, win_line = check_winner(BOARD_SIZE, game_board)
+            
+            if not winner:
+                return jsonify({ 
                 'status': 'ok',
                 'game_over': 'false',
                 'user_sign': USER_SIGN,
                 'computer_sign': COMPUTER_SIGN,
                 'computer_move': computer_move
                  })
+
+        user = current_user
+        user.games_played += 1
+        if winner == USER_SIGN:
+            user.games_won += 1
+            db.session.add(user)
+        db.session.commit()
+        return jsonify({
+            'status': 'ok',
+            'game_over': 'true',
+            'user_sign': USER_SIGN,
+            'computer_sign': COMPUTER_SIGN,
+            'computer_move': computer_move,
+            'winner': winner,
+            'win_line': win_line
+        })
+
+            
 
 
 @app.route('/register' , methods=['GET','POST'])
