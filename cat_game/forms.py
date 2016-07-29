@@ -6,7 +6,6 @@ from wtforms.validators import Required, Length
 class LoginForm(Form):
     username = TextField('Username', [Required(), Length(min=5, message='Too short username')])
     password = TextField('Password', [Required(), Length(min=6, message='Must be at least 6 symbols')])
-    remember_me = BooleanField('Remember me')
 
 class RegisterForm(Form):
     username = TextField('Username', [Required(), Length(min=5, message='Too short username')])

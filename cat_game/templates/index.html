@@ -4,25 +4,35 @@
     <div>Hello, {{ user.username }}!</div>
   {% endif %}
   <div class="content">
-      <div id="settings">
-      <form action="" method=post>
-        {{ form.hidden_tag() }}
-        <div>
-          {{ form.user_sign.label }}
-          {% for subfield in form.user_sign %}
-            <tr>
-                <td>{{ subfield }}</td>
-                <td>{{ subfield.label }}</td>
-            </tr>
-          {% endfor %}
-        </div>
-        <div>
-          <button type="submit" class="start-btn">
-            Start game!    
-          </button>
-        </div>
-      </form>
+    <div class="sidebar">
+      <div>{{ user.username }}</div>
+      <hr/>
+      <div>
+        Games played: {{ user.games_played }}
+      </div>
+      <div>
+        Games won: {{ user.games_won }}
+      </div>
     </div>
+    <div id="settings">
+    <form action="" method=post>
+      {{ form.hidden_tag() }}
+      <div>
+        {{ form.user_sign.label }}
+        {% for subfield in form.user_sign %}
+          <tr>
+              <td>{{ subfield }}</td>
+              <td>{{ subfield.label }}</td>
+          </tr>
+        {% endfor %}
+      </div>
+      <div>
+        <button type="submit" class="start-btn">
+          Start game!    
+        </button>
+      </div>
+    </form>
+  </div>
     
   </div>
 {% endblock %}
