@@ -1,5 +1,4 @@
 from flask_wtf import Form
-# from flask.ext.wtf.html5 import IntegerField
 from wtforms.fields import TextField, BooleanField, RadioField
 from wtforms.validators import Required, Length
 
@@ -15,4 +14,4 @@ class RegisterForm(Form):
     password = TextField('Password', [Required(), Length(min=6, message='Must be at least 6 symbols')])
 
 class SettingsForm(Form):
-    user_sign = RadioField('Your sign',[Required()], choices=[('cross', 'X'), ('zero', 'O')])
+    user_sign = RadioField('Your sign',[Required()], choices=[('X', 'X'), ('O', 'O')])

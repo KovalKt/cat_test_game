@@ -1,6 +1,6 @@
 
 EMPTY = ""
-game_board = []
+
 
 def check_winner(board_size, board):
     if board_size == 3:
@@ -22,12 +22,6 @@ def winner3(board):
     return None, None
 
 def possible_moves(board):
-    # moves = [x.id for x in board if x.value == '']
-    # cells_num 
-    # for cell in range(len(board)):
-    #     if board[square] == EMPTY:
-    #         moves.append(square)
-    # print [x for x in enumerate(board)]
     return [indx for (indx, cell) in enumerate(board) if cell == '']
 
 def get_computer_move(board_size, board, computer_sign, user_sign):
@@ -38,16 +32,13 @@ def get_computer_move(board_size, board, computer_sign, user_sign):
     for move in possible_moves(board):
         board[move] = computer_sign
         if check_winner(board_size, board) == computer_sign:
-            # print (move)
             return move
         board[move] = EMPTY
     for move in possible_moves(board):
         board[move] = user_sign
         if check_winner(board_size, board) == user_sign:
-            # print (move)
             return move
         board[move] = EMPTY
     for move in BEST_MOVES:
         if move in possible_moves(board):
-            # print (move)
             return move

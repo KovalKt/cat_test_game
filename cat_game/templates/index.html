@@ -8,6 +8,7 @@
       <form action="" method=post>
         {{ form.hidden_tag() }}
         <div>
+          {{ form.user_sign.label }}
           {% for subfield in form.user_sign %}
             <tr>
                 <td>{{ subfield }}</td>

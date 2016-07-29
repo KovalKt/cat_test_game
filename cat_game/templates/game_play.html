@@ -1,8 +1,5 @@
 {% extends "layout.html" %}
 {% block body %}
-  {% if session.logged_in %}
-    <div>Hello, {{ user.username }}!</div>
-  {% endif %}
   <div class="content">
     <div class="sidebar">Games played: {{ user.games_played }}</div>
 
@@ -13,7 +10,7 @@
           {% for column in range(board_capacity) %}
           <td class="board-cell">
             {% set index = column+row*board_capacity %}
-            <button id="{{ index }}" type="button" onclick="sendId(this)">
+            <button id="{{ index }}" type="button" class="cell" onclick="sendId(this)">
               {{ game_board[index].value }}
             </button>
           </td>
