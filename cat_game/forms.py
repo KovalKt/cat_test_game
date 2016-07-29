@@ -14,3 +14,4 @@ class RegisterForm(Form):
 
 class SettingsForm(Form):
     user_sign = RadioField('Your sign', [Required()], choices=[('X', 'X'), ('O', 'O')], default='O')
+    diagonals = BooleanField('Forbid diagonal for win?')

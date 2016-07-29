@@ -9,6 +9,7 @@ from .helper import get_computer_move, check_winner
 BOARD_SIZE = 3
 USER_SIGN = 'O'
 COMPUTER_SIGN = 'X'
+diagonals = True
 game_board = []
 
 @login_manager.user_loader
@@ -17,9 +18,12 @@ def load_user(id):
 
 @app.before_request
 def before_request():
-    global USER_SIGN, COMPUTER_SIGN
+    global USER_SIGN, COMPUTER_SIGN, diagonals
     g.user = current_user
-    USER_SIGN = request.cookies.get('user_sign')
+    settings = request.cookies.get('game_settings')
+    if settings:
+        USER_SIGN, diagonals = settings.split(';')
+        diagonals = (diagonals == 'True')
     COMPUTER_SIGN = 'X' if USER_SIGN == 'O' else 'O'
     
 @app.route('/', methods=['GET','POST'])
@@ -31,36 +35,36 @@ def index():
     if request.method == 'POST':
         USER_SIGN = form.user_sign.data
         response = app.make_response(redirect(url_for('game')) )
-        response.set_cookie('user_sign',value=USER_SIGN)
+        response.set_cookie('game_settings',value=USER_SIGN+';'+str(not form.diagonals.data))
         return response
     return render_template('index.html', user=user, form=form)
 
 @app.route('/game', methods=['GET', 'POST'])
 def game():
     global game_board
+
     if request.method == 'GET':
         game_board = ['' for x in range(BOARD_SIZE*BOARD_SIZE)]
         if COMPUTER_SIGN == 'X':
-            print COMPUTER_SIGN
-            computer_move = get_computer_move(BOARD_SIZE, game_board, COMPUTER_SIGN, USER_SIGN)
-            print computer_move
+            computer_move = get_computer_move(BOARD_SIZE, game_board, 
+                COMPUTER_SIGN, USER_SIGN, diagonals)
             game_board[computer_move] = COMPUTER_SIGN
         return render_template('game_play.html', 
             user=current_user, 
             game_board=game_board,
             board_capacity=BOARD_SIZE)
     else:
-        print int(request.form['cell_id'])
         position = int(request.form['cell_id'])
         game_board[position] = USER_SIGN
-        winner, win_line = check_winner(BOARD_SIZE, game_board)
+        winner, win_line = check_winner(BOARD_SIZE, game_board, diagonals)
 
         computer_move = None
         if not winner:
-            computer_move = get_computer_move(BOARD_SIZE, game_board, COMPUTER_SIGN, USER_SIGN)
+            computer_move = get_computer_move(BOARD_SIZE, game_board, 
+                COMPUTER_SIGN, USER_SIGN, diagonals)
             game_board[computer_move] = COMPUTER_SIGN
             
-            winner, win_line = check_winner(BOARD_SIZE, game_board)
+            winner, win_line = check_winner(BOARD_SIZE, game_board, diagonals)
             
             if not winner:
                 return jsonify({ 

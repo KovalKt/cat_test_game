@@ -16,7 +16,7 @@
     </div>
     <div id="settings">
     <form action="" method=post>
-      {{ form.hidden_tag() }}
+      <label>{{ form.hidden_tag() }}</label>
       <div>
         {{ form.user_sign.label }}
         {% for subfield in form.user_sign %}
@@ -25,6 +25,12 @@
               <td>{{ subfield.label }}</td>
           </tr>
         {% endfor %}
+      </div>
+      <div>
+        <label>{{ form.diagonals.label }}</label>
+        <div>
+          {{ form.diagonals }}
+        </div>
       </div>
       <div>
         <button type="submit" class="start-btn">
