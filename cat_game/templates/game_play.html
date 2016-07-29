@@ -20,7 +20,7 @@
           <td class="board-cell">
             {% set index = column+row*board_capacity %}
             <button id="{{ index }}" type="button" class="cell" onclick="sendId(this)">
-              {{ game_board[index].value }}
+              {{ game_board[index] }}
             </button>
           </td>
           {% endfor %}

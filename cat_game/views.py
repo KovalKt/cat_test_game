@@ -40,6 +40,11 @@ def game():
     global game_board
     if request.method == 'GET':
         game_board = ['' for x in range(BOARD_SIZE*BOARD_SIZE)]
+        if COMPUTER_SIGN == 'X':
+            print COMPUTER_SIGN
+            computer_move = get_computer_move(BOARD_SIZE, game_board, COMPUTER_SIGN, USER_SIGN)
+            print computer_move
+            game_board[computer_move] = COMPUTER_SIGN
         return render_template('game_play.html', 
             user=current_user, 
             game_board=game_board,
@@ -49,12 +54,11 @@ def game():
         position = int(request.form['cell_id'])
         game_board[position] = USER_SIGN
         winner, win_line = check_winner(BOARD_SIZE, game_board)
-        print winner
-        print win_line
+
         if winner:
+            user = current_user
+            user.games_played += 1
             if winner == USER_SIGN:
-                user = current_user
-                user.games_played += 1
                 user.games_won += 1
                 db.session.add(user)
                 db.session.commit()
