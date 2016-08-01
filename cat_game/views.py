@@ -6,7 +6,7 @@ from .models import User
 from .forms import LoginForm, RegisterForm, SettingsForm
 from .helper import get_computer_move, check_winner
 
-BOARD_SIZE = 3
+BOARD_CAPACITY = 3
 USER_SIGN = 'O'
 COMPUTER_SIGN = 'X'
 diagonals = True
@@ -18,11 +18,12 @@ def load_user(id):
 
 @app.before_request
 def before_request():
-    global USER_SIGN, COMPUTER_SIGN, diagonals
+    global USER_SIGN, COMPUTER_SIGN, BOARD_CAPACITY, diagonals
     g.user = current_user
     settings = request.cookies.get('game_settings')
     if settings:
-        USER_SIGN, diagonals = settings.split(';')
+        USER_SIGN, diagonals, BOARD_CAPACITY= settings.split(';')
+        BOARD_CAPACITY = int(BOARD_CAPACITY)
         diagonals = (diagonals == 'True')
     COMPUTER_SIGN = 'X' if USER_SIGN == 'O' else 'O'
     
@@ -34,8 +35,10 @@ def index():
     user = current_user
     if request.method == 'POST':
         USER_SIGN = form.user_sign.data
+        settings_value = USER_SIGN+';'+str(not form.diagonals.data)+';'+form.board_capacity.data
+        BOARD_CAPACITY = int(form.board_capacity.data)
         response = app.make_response(redirect(url_for('game')) )
-        response.set_cookie('game_settings',value=USER_SIGN+';'+str(not form.diagonals.data))
+        response.set_cookie('game_settings',value=settings_value)
         return response
     return render_template('index.html', user=user, form=form)
 
@@ -44,27 +47,27 @@ def game():
     global game_board
 
     if request.method == 'GET':
-        game_board = ['' for x in range(BOARD_SIZE*BOARD_SIZE)]
+        game_board = ['' for x in range(BOARD_CAPACITY*BOARD_CAPACITY)]
         if COMPUTER_SIGN == 'X':
-            computer_move = get_computer_move(BOARD_SIZE, game_board, 
+            computer_move = get_computer_move(BOARD_CAPACITY, game_board, 
                 COMPUTER_SIGN, USER_SIGN, diagonals)
             game_board[computer_move] = COMPUTER_SIGN
         return render_template('game_play.html', 
             user=current_user, 
             game_board=game_board,
-            board_capacity=BOARD_SIZE)
+            board_capacity=BOARD_CAPACITY)
     else:
         position = int(request.form['cell_id'])
         game_board[position] = USER_SIGN
-        winner, win_line = check_winner(BOARD_SIZE, game_board, diagonals)
+        winner, win_line = check_winner(BOARD_CAPACITY, game_board, diagonals)
 
         computer_move = None
         if not winner:
-            computer_move = get_computer_move(BOARD_SIZE, game_board, 
+            computer_move = get_computer_move(BOARD_CAPACITY, game_board, 
                 COMPUTER_SIGN, USER_SIGN, diagonals)
             game_board[computer_move] = COMPUTER_SIGN
             
-            winner, win_line = check_winner(BOARD_SIZE, game_board, diagonals)
+            winner, win_line = check_winner(BOARD_CAPACITY, game_board, diagonals)
             
             if not winner:
                 return jsonify({ 

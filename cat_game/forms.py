@@ -15,3 +15,4 @@ class RegisterForm(Form):
 class SettingsForm(Form):
     user_sign = RadioField('Your sign', [Required()], choices=[('X', 'X'), ('O', 'O')], default='O')
     diagonals = BooleanField('Forbid diagonal for win?')
+    board_capacity = RadioField('Board capacity', [Required()], choices=[('3', '3x3'), ('5', '5x5')], default='3')

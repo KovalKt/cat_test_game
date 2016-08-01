@@ -33,6 +33,17 @@
         </div>
       </div>
       <div>
+        <label>{{ form.board_capacity.label }}</label>
+        <div>
+          {% for subfield in form.board_capacity %}
+          <tr>
+              <td>{{ subfield }}</td>
+              <td>{{ subfield.label }}</td>
+          </tr>
+        {% endfor %}
+        </div>
+      </div>
+      <div>
         <button type="submit" class="start-btn">
           Start game!    
         </button>
